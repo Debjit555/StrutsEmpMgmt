@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="en">
     <head>
@@ -18,38 +18,80 @@
         <link href="css/signin.css" rel="stylesheet">
 
     </head>
+    
+    <script>
+        function submitForm()
+        {
+            signupForm.submit();
+        }
+    </script>
 
     <body class="text-center">
 
 
         <main class="form-signin w-100 m-auto">
-            <form action="SignUp" method="Post">
+            <form action="PreSignUp" method="Get" id="signupForm">
                 <img class="mb-4" src="images/flower-logo.jpg" alt="" width="200" height="200">
                 <h1 class="h3 mb-3 fw-normal">Please provide below information</h1>
 
                 <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="emailAddess" value="${User.getEmailAddess()}">
                     <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" value="${User.getPassword()}">
                     <label for="floatingPassword">Password</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="firstName" placeholder="first name">
+                    <input type="text" class="form-control" id="firstName" placeholder="first name" name="firstName" value="${User.getFirstName()}">
                     <label for="firstName">First Name</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="lastName" placeholder="last name">
+                    <input type="text" class="form-control" id="lastName" placeholder="last name" name="lastName" value="${User.getLastName()}">
                     <label for="firstName">Last Name</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="phoneNumber" placeholder="phone number">
+                    <input type="text" class="form-control" id="phoneNumber" placeholder="phone number" name="phoneNumber" value="${User.getPhoneNumber()}">
                     <label for="firstName">Phone Number</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="address" placeholder="address">
-                    <label for="firstName">Address</label>
+                    <input type="text" class="form-control" id="address" placeholder="addressLine1" name="addressLine1" value="${User.getAddressLine1()}">
+                    <label for="firstName">Address Line 1</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="address" placeholder="addressLine2" name="addressLine2" value="${User.getAddressLine2()}">
+                    <label for="firstName">Address Line 2</label>
+                </div>
+
+                <div class="form-floating">
+
+                    <select name="countryCode" class="form-select" id="countryCode" onchange="submitForm()">
+                        <option value="">Select a Country</option>
+                        <c:forEach var="country" items="${CountryList}">
+                            <option value=${country.getCountryCode()}<c:if test="${country.getCountryCode()==User.getCountryCode()}"> selected </c:if>> ${country.getCountryName()}  </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                        
+                        <div class="form-floating">
+
+                    <select name="stateCode" class="form-select" id="stateCode" onchange="submitForm()">
+                        <option value="">Select a Province</option>
+                        <c:forEach var="province" items="${StateList}">
+                            <option value=${province.getProvinceCode()}<c:if test="${province.getProvinceCode()==User.getStateCode()}"> selected </c:if>>
+                                ${province.getProvinceName()}  </option>
+                        </c:forEach>
+                    </select>
+                </div>
+                        
+                        <div class="form-floating">
+
+                    <select name="distCode" class="form-select" id="distCode" >
+                        <option value="">Select a District</option>
+                        <c:forEach var="dist" items="${DistList}">
+                            <option value=${dist.getDistCode()}<c:if test="${dist.getDistCode()==User.getDistCode()}"> selected </c:if>> ${dist.getDistName()}  </option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="checkbox mb-3">

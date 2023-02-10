@@ -18,9 +18,10 @@
             <result name="SUCCESS">employeeDetails.jsp</result>
             <result name="FAILURE">editemployee.jsp</result>
         </action>
-        
-        
-       
+        <action name="SignUp" class="com.exavalu.models.User" method="doSignUp">
+            <result name="SUCCESS">login.jsp</result>
+            <result name="FAILURE">login.jsp</result>
+        </action>
                 <action name="AddEmployee" class="com.exavalu.models.Employee" method="addEmployee">
             <result name="SUCCESS">employeeDetails.jsp</result>
             <result name="FAILURE">addemployee.jsp</result>
@@ -28,6 +29,10 @@
         <action name="SearchEmployee" class="com.exavalu.models.Employee" method="searchEmployee">
             <result name="SUCCESS">searchemployee.jsp</result>
             <result name="FAILURE">searchemployee.jsp</result>
+        </action>
+                <action name="PreSignUp" class="com.exavalu.models.User" method="doPreSignUp">
+            <result name="SUCCESS">login.jsp</result>
+            <result name="FAILURE">signup.jsp</result>
         </action>
     </package>
 </struts>
