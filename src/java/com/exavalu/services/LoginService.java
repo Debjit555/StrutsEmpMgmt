@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -185,6 +186,18 @@ public class LoginService {
 
         return result;
 
+    }
+
+    public boolean doSignUpAll(ArrayList userList) {
+        boolean result = true;
+        for(int i=0;i<userList.size();i++)
+        {
+            if(!doSignUp((User)userList.get(i)))
+            {
+                result=false;
+            }
+        }
+        return result;
     }
 
 }

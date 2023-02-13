@@ -19,18 +19,38 @@
 
     </head>
     
+     <script src="https://code.jquery.com/jquery-3.6.3.js" 
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" 
+            crossorigin="anonymous"></script>
+    
     <script>
         function submitForm()
         {
             signupForm.submit();
         }
+        function fetchContent(selectedId,targetId)
+        {
+//            alert("'#"+selectedId.name+"'");
+            
+                $.ajax({
+                    url: 'PreSignUp',
+                    data: {
+                        [selectedId]: $("#"+selectedId).val()
+                    },
+                    success: function (responseText) {
+//                        alert(responseText);
+                        $("#"+targetId).html(responseText);
+                    }
+                });
+            
+        }
     </script>
 
     <body class="text-center">
 
 
         <main class="form-signin w-100 m-auto">
-            <form action="PreSignUp" method="Get" id="signupForm">
+            <form action="PreSignUp" method="Post" id="signupForm">
                 <img class="mb-4" src="images/flower-logo.jpg" alt="" width="200" height="200">
                 <h1 class="h3 mb-3 fw-normal">Please provide below information</h1>
 
@@ -65,7 +85,7 @@
 
                 <div class="form-floating">
 
-                    <select name="countryCode" class="form-select" id="countryCode" onchange="submitForm()">
+                    <select name="countryCode" class="form-select" id="countryCode" onchange="fetchContent('countryCode', 'stateCode')">
                         <option value="">Select a Country</option>
                         <c:forEach var="country" items="${CountryList}">
                             <option value=${country.getCountryCode()}<c:if test="${country.getCountryCode()==User.getCountryCode()}"> selected </c:if>> ${country.getCountryName()}  </option>
@@ -75,12 +95,9 @@
                         
                         <div class="form-floating">
 
-                    <select name="stateCode" class="form-select" id="stateCode" onchange="submitForm()">
+                    <select name="stateCode" class="form-select" id="stateCode" onchange="fetchContent('stateCode', 'distCode')">
                         <option value="">Select a Province</option>
-                        <c:forEach var="province" items="${StateList}">
-                            <option value=${province.getProvinceCode()}<c:if test="${province.getProvinceCode()==User.getStateCode()}"> selected </c:if>>
-                                ${province.getProvinceName()}  </option>
-                        </c:forEach>
+                        
                     </select>
                 </div>
                         
@@ -88,9 +105,7 @@
 
                     <select name="distCode" class="form-select" id="distCode" >
                         <option value="">Select a District</option>
-                        <c:forEach var="dist" items="${DistList}">
-                            <option value=${dist.getDistCode()}<c:if test="${dist.getDistCode()==User.getDistCode()}"> selected </c:if>> ${dist.getDistName()}  </option>
-                        </c:forEach>
+                        
                     </select>
                 </div>
 

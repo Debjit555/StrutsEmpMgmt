@@ -4,6 +4,7 @@
  */
 package com.exavalu.models;
 
+import com.exavalu.services.ApiService;
 import com.exavalu.services.DepartmentService;
 import com.exavalu.services.EmployeeService;
 import com.exavalu.services.LoginService;
@@ -31,7 +32,15 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
     private String firstName;
     private String lastName;
     private String emailAddess;
-    private String password, phoneNumber, addressLine1, addressLine2, countryCode, stateCode, distCode;
+    private String password, status, phoneNumber, addressLine1, addressLine2, countryCode, stateCode, distCode;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -224,16 +233,18 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
         ArrayList distList = null;
         sessionMap.put("CountryList", countryList);
 
-        if (this.countryCode != null && this.stateCode != null) {
+        if (this.stateCode != null) {
             distList = LoginService.getAllDistricts(this.stateCode);
             sessionMap.put("DistList", distList);
             sessionMap.put("User", this);
+            result = "DISTLIST";
         }
 
         if (this.countryCode != null) {
             stateList = LoginService.getAllStates(this.countryCode);
             sessionMap.put("StateList", stateList);
             sessionMap.put("User", this);
+            result = "STATELIST";
         }
 
         if (this.firstName != null && this.firstName.length() > 0 && this.lastName != null && this.lastName.length() > 0 && this.emailAddess != null && this.emailAddess.length() > 0 && this.password != null && this.password.length() > 0 && this.stateCode != null && this.stateCode.length() > 0 && this.countryCode != null && this.countryCode.length() > 0 && this.distCode != null && this.distCode.length() > 0 && this.phoneNumber != null && this.phoneNumber.length() > 0 && this.addressLine1 != null && this.addressLine1.length() > 0 && this.addressLine2 != null && this.addressLine2.length() > 0) {
@@ -250,6 +261,23 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
         String result = "SUCCESS";
         sessionMap.clear();
         return result;
+    }
+    
+    public String apiCall() throws Exception {
+        String result = "SUCCESS";
+        ArrayList userList=ApiService.getInstance().getAllData();
+        boolean success = LoginService.getInstance().doSignUpAll(userList);
+
+        if (success) {
+            result = "SUCCESS";
+            sessionMap.put("SuccessSignUp", "Successfully Registered");
+
+        } else {
+            sessionMap.put("FailSignUp", "Email All Ready Exsists");
+        }
+        System.out.println(sessionMap);
+        return result;
+
     }
 
 }

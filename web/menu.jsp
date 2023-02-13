@@ -43,6 +43,8 @@
                         <li><a href="login.jsp" class="nav-link px-2 text-white">Show Employees</a></li>
                         <li><a href="login.jsp" class="nav-link px-2 text-white">Search </a></li>
                         <li><a href="login.jsp" class="nav-link px-2 text-white">Update</a></li>
+                        <li><a href="ApiFetch" class="nav-link px-2 text-white">API Call</a></li>
+
                         
                     </ul>
                   
