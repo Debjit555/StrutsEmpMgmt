@@ -12,7 +12,29 @@
         <!--<link href="css/carousel.css" rel="stylesheet">-->
     </head>
 
-    <header class="p-3 text-bg-dark">
+    <script src="https://code.jquery.com/jquery-3.6.3.js" 
+                        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" 
+                crossorigin="anonymous"></script>
+
+    <script>
+        function fetchEmployees(targetId,url)
+                {
+//            alert("'#"+selectedId.name+"'");
+            document.getElementById('nav_bar').style.display = 'none';
+              $.ajax({
+                
+                                    url: url,
+
+                                    success: function (responseText) {
+//                        alert(responseText);
+                                            $("#" + targetId).html(responseText);
+                                    }
+                            });
+            
+                }
+    </script>
+
+    <header class="p-3 text-bg-dark" id="nav_bar">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -23,19 +45,19 @@
                 <c:if test="${login_check!=null}">
 
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><a href="addemployee.jsp" class="nav-link px-2 text-white">Add </a></li>
-                        <li><a href="employeeDetails.jsp" class="nav-link px-2 text-white">Show Employees</a></li>
-                        <li><a href="searchemployee.jsp" class="nav-link px-2 text-white">Search </a></li>
-                        <li><a href="employeeDetails.jsp" class="nav-link px-2 text-white">Update</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">Sign Out</a></li>
+                        <li><a class="nav-link px-2 text-white" onclick="fetchEmployees('show','addemployee.jsp')" >Add </a></li>
+                        <li><a class="nav-link px-2 text-white" onclick="fetchEmployees('show','employeeDetails.jsp')">Show Employees</a></li>
+                        <li><a class="nav-link px-2 text-white" onclick="fetchEmployees('show','searchemployee.jsp')">Search </a></li>
+                         <li><a href="#" class="nav-link px-2 text-white">Sign Out</a></li>
                     </ul>
+
 
                     <c:set var="user" value="${User}"/>
                     <a class="nav-link px-2 text-white" href="#">
                         Welcome: ${user.firstName} ${user.lastName}</a>
 
                 </c:if>
-                
+
                 <c:if test="${login_check==null}">
 
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -45,9 +67,9 @@
                         <li><a href="login.jsp" class="nav-link px-2 text-white">Update</a></li>
                         <li><a href="ApiFetch" class="nav-link px-2 text-white">API Call</a></li>
 
-                        
+
                     </ul>
-                  
+
                 </c:if>
 
 
@@ -74,4 +96,6 @@
                 </div>
             </div>
         </div>
+        
     </header>
+                    <div name="show"  id="show" ></div>
