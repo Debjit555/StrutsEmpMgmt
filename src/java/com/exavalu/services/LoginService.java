@@ -9,12 +9,14 @@ import com.exavalu.models.District;
 import com.exavalu.models.Province;
 import com.exavalu.models.User;
 import com.exavalu.utils.JDBCConnectionManager;
+import com.exavalu.utils.TestClass;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -118,7 +120,9 @@ public class LoginService {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger log = Logger.getLogger(LoginService.class.getName());
+            log.error("Error in Login Service");
+//            ex.printStackTrace();
         }
 
         return success;

@@ -11,8 +11,9 @@ import com.exavalu.services.LoginService;
 import com.exavalu.services.RoleService;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.util.logging.Logger;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 import org.apache.struts2.dispatcher.ApplicationMap;
@@ -20,12 +21,10 @@ import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.SessionAware;
 
-/**
- *
- * @author anich
- */
-public class User extends ActionSupport implements ApplicationAware, SessionAware, Serializable {
+import org.apache.log4j.Logger;
 
+public class User extends ActionSupport implements ApplicationAware, SessionAware, Serializable {
+    
     /**
      * @param args the command line arguments
      */
@@ -104,14 +103,6 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
 
     public void setMap(ApplicationMap map) {
         this.map = map;
-    }
-
-    public static Logger getLOG() {
-        return LOG;
-    }
-
-    public static void setLOG(Logger LOG) {
-        ActionSupport.LOG = LOG;
     }
 
     /**
@@ -202,6 +193,8 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
 
             result = "SUCCESS";
         } else {
+            Logger log = Logger.getLogger(LoginService.class.getName());
+            log.error(LocalDateTime.now()+"--Wrong email ID or password");
             System.out.println("returning Failure from doLogin method");
         }
 
@@ -209,6 +202,8 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
     }
 
     public String doSignUp() throws Exception {
+        
+       
         String result = "FAILURE";
         boolean success = LoginService.getInstance().doSignUp(this);
 
@@ -217,7 +212,9 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
             sessionMap.put("SuccessSignUp", "Successfully Registered");
             System.out.println("Returning from success");
         } else {
-            sessionMap.put("FailSignUp", "Email All Ready Exsists");
+            Logger log = Logger.getLogger(LoginService.class.getName());
+            log.error(LocalDateTime.now()+"--Email Id already exists");
+            sessionMap.put("FailSignUp", "Email address Already Exists");
             System.out.println("Returning from failure");
         }
         System.out.println(sessionMap);
